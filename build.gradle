@@ -9,6 +9,9 @@ buildscript {
                 password(rootProject.hasProperty('repoPass') ? rootProject['repoPass'] : 'cuba123')
             }
         }
+        maven {
+            url 'http://repo.pentaho.org/artifactory/repo'
+        }
         
     }
     dependencies {
@@ -21,8 +24,12 @@ def globalModule = project(':cuba-bi-global')
 def coreModule = project(':cuba-bi-core')
 def guiModule = project(':cuba-bi-gui')
 def webModule = project(':cuba-bi-web')
+def pentahoModule = project(':cuba-bi-pentaho')
 
 def servletApi = 'org.apache.tomcat:tomcat-servlet-api:8.5.9'
+
+def pentahoVersion = "7.0.0.0-25";
+def pentahoSpringVersion = "4.1.3.RELEASE";
 
 apply(plugin: 'idea')
 apply(plugin: 'cuba')
@@ -40,7 +47,7 @@ cuba {
 
 def hsql = 'org.hsqldb:hsqldb:2.2.9'
 
-configure([globalModule, coreModule, guiModule, webModule]) {
+configure([globalModule, coreModule, guiModule, webModule, pentahoModule]) {
     apply(plugin: 'java')
     apply(plugin: 'maven')
     apply(plugin: 'idea')
@@ -175,6 +182,16 @@ configure(webModule) {
     task deploy(dependsOn: [assemble, cleanConf], type: CubaDeployment) {
         appName = 'cuba-bi'
         appJars('cuba-bi-global', 'cuba-bi-gui', 'cuba-bi-web')
+    }
+}
+
+configure(pentahoModule) {
+    dependencies {
+        compile group: 'javax.servlet', name: 'servlet-api', version: '2.4'
+        compile group: 'org.springframework.security', name: 'spring-security-core', version: pentahoSpringVersion
+        compile group: 'org.springframework.security', name: 'spring-security-web', version: pentahoSpringVersion
+        compile group: 'pentaho', name: 'pentaho-platform-core', version: pentahoVersion
+        compile group: 'org.json', name: 'json', version: '20160810'
     }
 }
 

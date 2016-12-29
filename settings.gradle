@@ -1,6 +1,7 @@
 rootProject.name = 'bi'
-include(':cuba-bi-global', ':cuba-bi-core', ':cuba-bi-gui', ':cuba-bi-web')
+include(':cuba-bi-global', ':cuba-bi-core', ':cuba-bi-gui', ':cuba-bi-web', ':cuba-bi-pentaho')
 project(':cuba-bi-global').projectDir = new File(settingsDir, 'modules/global')
 project(':cuba-bi-core').projectDir = new File(settingsDir, 'modules/core')
 project(':cuba-bi-gui').projectDir = new File(settingsDir, 'modules/gui')
 project(':cuba-bi-web').projectDir = new File(settingsDir, 'modules/web')
+project(':cuba-bi-pentaho').projectDir = new File(settingsDir, 'modules/pentaho')
