@@ -21,10 +21,6 @@
                   value="+com/haulmont/addon/bi/spring.xml"/>
         <property name="cuba.mainMessagePack"
                   value="+com.haulmont.addon.bi.core"/>
-        <artifact classifier="db"
-                  configuration="dbscripts"
-                  ext="zip"
-                  name="cuba-bi-core"/>
     </module>
     <module blocks="web,desktop"
             dependsOn="global"
@@ -52,6 +48,6 @@
         <property name="cuba.permissionConfig"
                   value="+com/haulmont/addon/bi/web-permissions.xml"/>
         <property name="cuba.mainMessagePack"
-                  value="+com.haulmont.addon.bi.gui com.haulmont.addon.bi.web"/>
+                  value="+com.haulmont.addon.bi.web"/>
     </module>
 </app-component>

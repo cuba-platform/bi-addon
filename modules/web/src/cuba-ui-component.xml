@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<components>
+    <component>
+        <name>biComponent</name>
+        <componentLoader>com.haulmont.addon.bi.gui.xml.layout.BIComponentLoader</componentLoader>
+        <class>com.haulmont.addon.bi.web.gui.components.WebBIComponent</class>
+    </component>
+</components>
