@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://browseCaption"
+        class="com.haulmont.addon.bi.web.bireport.BIReportBrowse"
+        focusComponent="biReportsTable"
+        lookupComponent="biReportsTable"
+        messagesPack="com.haulmont.addon.bi.web.bireport">
+    <dsContext>
+        <groupDatasource id="biReportsDs"
+                         class="com.haulmont.addon.bi.entity.BIReport"
+                         view="_local">
+            <query>
+                <![CDATA[select e from cubabi$BIReport e]]>
+            </query>
+        </groupDatasource>
+    </dsContext>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="biReportsTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="biReportsTable"
+                datasource="biReportsDs">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="biReportsTable"
+                    width="100%">
+            <actions>
+                <action id="create"/>
+                <action id="edit"/>
+                <action id="remove"/>
+            </actions>
+            <columns>
+                <column id="name"/>
+                <column id="description"
+                        maxTextLength="40"/>
+                <column id="code"/>
+            </columns>
+            <rows datasource="biReportsDs"/>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn"
+                        action="biReportsTable.create"/>
+                <button id="editBtn"
+                        action="biReportsTable.edit"/>
+                <button id="removeBtn"
+                        action="biReportsTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+    </layout>
+</window>

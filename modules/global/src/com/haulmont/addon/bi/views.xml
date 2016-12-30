@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <views xmlns="http://schemas.haulmont.com/cuba/view.xsd">
-
+    <view class="com.haulmont.addon.bi.entity.BIReport"
+          extends="_local"
+          name="biReport-edit-view">
+        <property name="roles"
+                  view="biReportRole-edit-view"/>
+    </view>
+    <view class="com.haulmont.addon.bi.entity.BIReportRole"
+          extends="_local"
+          name="biReportRole-edit-view">
+        <property name="role"
+                  view="_minimal"/>
+    </view>
 </views>

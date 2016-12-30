@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  ~ TODO Copyright
+  -->
+
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://runReportCaption"
+        class="com.haulmont.addon.bi.web.bireport.BIReportRun"
+        focusComponent="biReportsTable"
+        lookupComponent="biReportsTable"
+        messagesPack="com.haulmont.addon.bi.web.bireport">
+    <dsContext>
+        <groupDatasource id="biReportsDs"
+                         class="com.haulmont.addon.bi.entity.BIReport"
+                         refreshMode="NEVER">
+        </groupDatasource>
+    </dsContext>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="biReportsTable"
+            spacing="true">
+        <grid id="gridFilter" spacing="true">
+            <columns count="6"/>
+            <rows>
+                <row>
+                    <label value="msg://reportRunFilterName" align="MIDDLE_RIGHT"/>
+                    <textField id="nameFilter" datatype="string" width="250px"/>
+
+                    <label value="msg://reportRunFilterCode" align="MIDDLE_RIGHT"/>
+                    <textField id="codeFilter" width="150px"/>
+
+                    <button id="setFilterButton"
+                            caption="msg://reportFilterButton"
+                            align="BOTTOM_LEFT"
+                            invoke="filterReports"
+                            width="100px"/>
+                    <button id="clearFilterButton"
+                            caption="msg://reportClearButton"
+                            align="BOTTOM_LEFT"
+                            invoke="clearFilter"
+                            width="100px"/>
+                </row>
+            </rows>
+        </grid>
+        <groupTable id="biReportsTable"
+                    width="100%">
+            <actions>
+                <action id="create"/>
+                <action id="edit"/>
+                <action id="remove"/>
+            </actions>
+            <columns>
+                <column id="name"/>
+                <column id="description"
+                        maxTextLength="40"/>
+                <column id="code"/>
+            </columns>
+            <rows datasource="biReportsDs"/>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="runReport" action="biReportsTable.runBIReport" icon="icons/run.png"/>
+            </buttonsPanel>
+        </groupTable>
+    </layout>
+</window>

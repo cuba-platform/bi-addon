@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://editorCaption"
+        class="com.haulmont.addon.bi.web.bireport.BIReportEdit"
+        datasource="biReportDs"
+        focusComponent="fieldGroup"
+        messagesPack="com.haulmont.addon.bi.web.bireport">
+    <dsContext>
+        <datasource id="biReportDs"
+                    class="com.haulmont.addon.bi.entity.BIReport"
+                    view="biReport-edit-view">
+            <collectionDatasource id="rolesDs"
+                                  property="roles"/>
+        </datasource>
+    </dsContext>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="rolesTable"
+            spacing="true">
+        <fieldGroup id="fieldGroup"
+                    datasource="biReportDs">
+            <column width="400px">
+                <field id="name"/>
+                <field id="code"/>
+                <field id="reportType"/>
+                <field id="description"
+                       rows="4"/>
+                <field id="reportPath"/>
+            </column>
+        </fieldGroup>
+        <label stylename="h2"
+               value="msg://roles"/>
+        <table id="rolesTable"
+               width="100%">
+            <actions>
+                <action id="add"/>
+                <action id="remove"/>
+            </actions>
+            <columns>
+                <column id="role"/>
+            </columns>
+            <rows datasource="rolesDs"/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="addBtn"
+                        action="rolesTable.add"/>
+                <button id="removeBtn"
+                        action="rolesTable.remove"/>
+            </buttonsPanel>
+        </table>
+        <frame id="windowActions"
+               screen="editWindowActions"/>
+    </layout>
+</window>

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <menu-config xmlns="http://schemas.haulmont.com/cuba/menu.xsd">
     <menu id="cuba-bi"
-          insertBefore="administration"/>
+          insertAfter="administration">
+        <item id="cubabi$BIReport.browse"/>
+        <item id="cubabi$BIReport.run"/>
+    </menu>
 </menu-config>

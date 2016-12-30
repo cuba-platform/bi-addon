@@ -17,6 +17,10 @@
             name="core">
         <artifact appJar="true"
                   name="cuba-bi-core"/>
+        <artifact classifier="db"
+                  configuration="dbscripts"
+                  ext="zip"
+                  name="cuba-bi-core"/>
         <property name="cuba.springContextConfig"
                   value="+com/haulmont/addon/bi/spring.xml"/>
         <property name="cuba.mainMessagePack"
