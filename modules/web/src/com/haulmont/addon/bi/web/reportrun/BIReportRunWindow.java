@@ -4,6 +4,7 @@
 
 package com.haulmont.addon.bi.web.reportrun;
 
+import com.haulmont.addon.bi.BIConfig;
 import com.haulmont.addon.bi.gui.components.BIComponent;
 import com.haulmont.cuba.gui.WindowParam;
 import com.haulmont.cuba.gui.components.AbstractWindow;
@@ -18,6 +19,8 @@ public class BIReportRunWindow extends AbstractWindow {
 
     @Inject
     protected BIComponent biComponent;
+    @Inject
+    protected BIConfig biConfig;
 
     @WindowParam(name = REPORT_NAME_PARAMETER)
     protected String reportName;
@@ -29,6 +32,7 @@ public class BIReportRunWindow extends AbstractWindow {
     public void init(Map<String, Object> params) {
         super.init(params);
         biComponent.setReportPath(reportPath);
+        biComponent.setServerUrl(biConfig.getPentahoServerUrl());
         setCaption(reportName);
     }
 }

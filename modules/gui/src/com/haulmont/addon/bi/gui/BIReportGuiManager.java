@@ -26,7 +26,7 @@ public class BIReportGuiManager {
     protected DataManager dataManager;
 
     /**
-     * Return list of reports, available for certain screen, user and input parameter
+     * Return list of reports, available for user
      *
      * @param user - caller user
      */

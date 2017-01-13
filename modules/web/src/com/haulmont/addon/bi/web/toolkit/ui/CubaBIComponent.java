@@ -19,6 +19,7 @@ public class CubaBIComponent extends AbstractJavaScriptComponent {
     protected String serverUrl;
     protected String reportPath;
     protected boolean editorMode = true;
+    protected AuthInfoProvider authInfoProvider;
 
     public CubaBIComponent() {
     }
@@ -50,19 +51,21 @@ public class CubaBIComponent extends AbstractJavaScriptComponent {
         getState().reportUrl = getReportUrl();
     }
 
+    public void setAuthInfoProvider(AuthInfoProvider authInfoProvider) {
+        this.authInfoProvider = authInfoProvider;
+    }
+
     protected String getReportUrl() {
         if (serverUrl != null && serverUrl.endsWith("/")) {
             serverUrl = serverUrl.substring(0, serverUrl.length() - 1);
         }
         try {
-            UserSessionSource userSessionSource = AppBeans.get(UserSessionSource.NAME);
-            AuthTicketService authTicketService = AppBeans.get(AuthTicketService.NAME);
             String reportUrl = String.format("%s/api/repos/%s/%s?disableFilterPanel=true&username=%s&ticket=%s&autoLogin=true",
                     serverUrl,
                     reportPath == null ? null : UriUtils.encodePathSegment(reportPath, "UTF-8"),
                     editorMode ? "editor" : "viewer",
-                    userSessionSource.getUserSession().getCurrentOrSubstitutedUser().getLogin(),
-                    authTicketService.generateTicket());
+                    authInfoProvider == null ? "" : authInfoProvider.getUserLogin(),
+                    authInfoProvider == null ? "" : authInfoProvider.getUserTicket());
             if (editorMode) {
                 reportUrl = reportUrl.concat("&removeFieldList=true");
             }
@@ -80,5 +83,10 @@ public class CubaBIComponent extends AbstractJavaScriptComponent {
     @Override
     protected CubaBIComponentState getState(boolean markAsDirty) {
         return (CubaBIComponentState) super.getState(markAsDirty);
+    }
+
+    public static interface AuthInfoProvider {
+        String getUserLogin();
+        String getUserTicket();
     }
 }
