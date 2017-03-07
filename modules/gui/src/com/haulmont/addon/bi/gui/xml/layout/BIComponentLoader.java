@@ -4,7 +4,10 @@
 
 package com.haulmont.addon.bi.gui.xml.layout;
 
+import com.haulmont.addon.bi.BIConfig;
 import com.haulmont.addon.bi.gui.components.BIComponent;
+import com.haulmont.cuba.core.global.AppBeans;
+import com.haulmont.cuba.core.global.Configuration;
 import com.haulmont.cuba.gui.xml.layout.loaders.AbstractComponentLoader;
 import org.apache.commons.lang.StringUtils;
 import org.dom4j.Element;
@@ -34,6 +37,10 @@ public class BIComponentLoader extends AbstractComponentLoader<BIComponent> {
         String serverUrl = element.attributeValue("serverUrl");
         if (StringUtils.isNotEmpty(serverUrl)) {
             component.setServerUrl(serverUrl);
+        } else {
+            Configuration configuration = AppBeans.get(Configuration.class);
+            BIConfig biConfig = configuration.getConfig(BIConfig.class);
+            component.setServerUrl(biConfig.getPentahoServerUrl());
         }
 }
 
