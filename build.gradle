@@ -37,7 +37,7 @@ apply(plugin: 'cuba')
 cuba {
     artifact {
         group = 'com.haulmont.addon.bi'
-        version = '0.1'
+        version = '1.0.0'
         isSnapshot = false
     }
     tomcat {
