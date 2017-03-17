@@ -1,6 +1,6 @@
 
 buildscript {
-    ext.cubaVersion = '6.4-SNAPSHOT'
+    ext.cubaVersion = '6.4.2'
     repositories {
         maven {
             url 'http://repository.haulmont.com:8587/nexus/content/groups/work'
@@ -38,7 +38,7 @@ cuba {
     artifact {
         group = 'com.haulmont.addon.bi'
         version = '0.1'
-        isSnapshot = true
+        isSnapshot = false
     }
     tomcat {
         dir = "$project.rootDir/build/tomcat"
