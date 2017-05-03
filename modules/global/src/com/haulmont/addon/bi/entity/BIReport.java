@@ -26,7 +26,7 @@ public class BIReport extends StandardEntity {
     protected String description;
 
     @Column(name = "REPORT_TYPE", nullable = false)
-    protected Integer reportType;
+    protected Integer reportType = ReportType.PENTAHO.getId();
 
     @Column(name = "REPORT_PATH")
     protected String reportPath;

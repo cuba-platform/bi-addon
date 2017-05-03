@@ -22,7 +22,6 @@
             <column width="400px">
                 <field id="name"/>
                 <field id="code"/>
-                <field id="reportType"/>
                 <field id="description"
                        rows="4"/>
                 <field id="reportPath"/>

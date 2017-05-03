@@ -5,7 +5,6 @@ import com.haulmont.addon.bi.entity.BIReportRole;
 import com.haulmont.addon.bi.entity.ReportType;
 import com.haulmont.cuba.core.global.Metadata;
 import com.haulmont.cuba.gui.components.AbstractEditor;
-import com.haulmont.cuba.gui.components.FieldGroup;
 import com.haulmont.cuba.gui.components.Table;
 import com.haulmont.cuba.gui.components.TextField;
 import com.haulmont.cuba.gui.components.actions.AddAction;
@@ -78,6 +77,6 @@ public class BIReportEdit extends AbstractEditor<BIReport> {
 
     protected void initRequiredFields() {
         BIReport report = getItem();
-        reportPathField.setRequired(report.getReportType() == ReportType.Pentaho);
+        reportPathField.setRequired(report.getReportType() == ReportType.PENTAHO);
     }
 }

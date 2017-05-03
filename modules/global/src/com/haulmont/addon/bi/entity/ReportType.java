@@ -7,8 +7,8 @@ import javax.annotation.Nullable;
 
 public enum ReportType implements EnumClass<Integer> {
 
-    Pentaho(1),
-    Qlik(2);
+    PENTAHO(1),
+    QLIK(2);
 
     private Integer id;
 
