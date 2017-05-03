@@ -1,5 +1,8 @@
 
 buildscript {
+    ext.addonVersion = '1.1-SNAPSHOT'
+    ext.addonVersion = rootProject.hasProperty('buildVersion') ? rootProject['buildVersion'] : addonVersion
+
     ext.cubaVersion = '6.5.0'
     repositories {
         maven {
@@ -36,8 +39,8 @@ apply(plugin: 'cuba')
 cuba {
     artifact {
         group = 'com.haulmont.addon.bi'
-        version = '1.1.0'
-        isSnapshot = false
+        version = project.addonVersion.replace('-SNAPSHOT', '')
+        isSnapshot = project.addonVersion.endsWith('-SNAPSHOT')
     }
     tomcat {
         dir = "$project.rootDir/build/tomcat"
