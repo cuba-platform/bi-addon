@@ -52,6 +52,9 @@ dependencies {
 
 
 def hsql = 'org.hsqldb:hsqldb:2.2.9'
+def postgres = 'org.postgresql:postgresql:9.4-1201-jdbc41'
+def mssql = 'com.microsoft.sqlserver:mssql-jdbc:6.1.0.jre8'
+def mysql = 'mysql:mysql-connector-java:5.1.38'
 
 configure([globalModule, coreModule, guiModule, webModule, pentahoModule]) {
     apply(plugin: 'java')
@@ -96,7 +99,20 @@ configure(coreModule) {
         compile(globalModule)
         provided(servletApi)
         jdbc(hsql)
+        jdbc(postgres)
+        jdbc(mssql) {
+            exclude(group: 'com.microsoft.azure', module: 'azure-keyvault')
+        }
+        jdbc(mysql)
         testRuntime(hsql)
+        testRuntime(postgres)
+        testRuntime(mssql) {
+            exclude(group: 'com.microsoft.azure', module: 'azure-keyvault')
+        }
+        testRuntime(mysql)
+
+        if (System.getProperty('oracleDriverClasspath'))
+            testRuntime(files(System.getProperty('oracleDriverClasspath')))
 
     }
 
@@ -114,6 +130,24 @@ configure(coreModule) {
         appJars('cuba-bi-global', 'cuba-bi-core')
     }
 
+    task startDb(description: 'Starts local HSQLDB server', type: CubaHsqlStart) {
+        dbName = 'cubabi'
+        dbPort = 9001
+    }
+
+    task stopDb(description: 'Stops local HSQLDB server', type: CubaHsqlStop)  {
+        dbName = 'cubabi'
+        dbPort = 9001
+    }
+
+    task removeDb(description: 'Removes local HSQL database', type: Delete) {
+        delete new File("$rootProject.projectDir/data")
+    }
+
+    task killDb(description: 'Kill local HSQLDB server process running on port 9001', type: CubaKillProcess) {
+        port = 9001
+    }
+
     task createDb(dependsOn: assembleDbScripts, description: 'Creates local database', type: CubaDbCreation) {
         dbms = 'hsql'
         host = 'localhost'
@@ -128,6 +162,111 @@ configure(coreModule) {
         dbName = 'cubabi'
         dbUser = 'sa'
         dbPassword = ''
+    }
+
+    /* Test data model */
+
+    task testDataModelPostgres(type: Test, dependsOn: testClasses) {
+        include("com/haulmont/bidemo/core/DataModelPostgresTest.class")
+        systemProperties = System.getProperties()
+    }
+
+    task testDataModelHsql(type: Test, dependsOn: testClasses) {
+        include("com/haulmont/bidemo/core/DataModelHsqlTest.class")
+        systemProperties = System.getProperties()
+    }
+
+    task testDataModelMssql(type: Test, dependsOn: testClasses) {
+        include("com/haulmont/bidemo/core/DataModelMssqlTest.class")
+        systemProperties = System.getProperties()
+    }
+
+    task testDataModelOracle(type: Test, dependsOn: testClasses) {
+        include("com/haulmont/bidemo/core/DataModelOracleTest.class")
+        systemProperties = System.getProperties()
+    }
+
+    task testDataModelMysql(type: Test, dependsOn: testClasses) {
+        include("com/haulmont/bidemo/core/DataModelMysqlTest.class")
+        systemProperties = System.getProperties()
+    }
+
+    /* PostgreSQL */
+    task createPostgresDb(dependsOn: assembleDbScripts, description: 'Creates local database', type: CubaDbCreation) {
+        dbms = 'postgres'
+        host = 'localhost'
+        dbName = 'bidemo'
+        dbUser = 'root'
+        dbPassword = 'root'
+    }
+
+    task updatePostgresDb(dependsOn: assembleDbScripts, description: 'Updates local database', type: CubaDbUpdate) {
+        dbms = 'postgres'
+        host = 'localhost'
+        dbName = 'bidemo'
+        dbUser = 'root'
+        dbPassword = 'root'
+    }
+
+    /* MSSQL */
+
+    task createMssqlDb(dependsOn: assembleDbScripts, description: 'Creates local database', type: CubaDbCreation) {
+        dbms = 'mssql'
+        host = System.getProperty('mssqlHost') ? System.getProperty('mssqlHost') : 'localhost'
+        dbName = System.getProperty('mssqlDbName') ? System.getProperty('mssqlDbName') : 'bidemo'
+        dbUser = System.getProperty('mssqlDbUser') ? System.getProperty('mssqlDbUser') : 'sa'
+        dbPassword = System.getProperty('mssqlDbPassword') ? System.getProperty('mssqlDbPassword') : 'saPass1'
+    }
+
+    task updateMssqlDb(dependsOn: assembleDbScripts, description: 'Updates local database', type: CubaDbUpdate) {
+        dbms = 'mssql'
+        host = System.getProperty('mssqlHost') ? System.getProperty('mssqlHost') : 'localhost'
+        dbName = System.getProperty('mssqlDbName') ? System.getProperty('mssqlDbName') : 'bidemo'
+        dbUser = System.getProperty('mssqlDbUser') ? System.getProperty('mssqlDbUser') : 'sa'
+        dbPassword = System.getProperty('mssqlDbPassword') ? System.getProperty('mssqlDbPassword') : 'saPass1'
+    }
+
+    /* Oracle */
+
+    task createOracleDb(dependsOn: assembleDbScripts, description: 'Creates Oracle database', type: CubaDbCreation) {
+        dbms = 'oracle'
+        host = System.getProperty('oracleHost') ? System.getProperty('oracleHost') : 'localhost'
+        dbName = System.getProperty('oracleDbName') ? System.getProperty('oracleDbName') : 'orcl'
+        dbUser = 'bidemo'
+        dbPassword = 'bidemo'
+        oracleSystemPassword = System.getProperty('oracleSystemPassword') ?
+                System.getProperty('oracleSystemPassword') : 'oracle'
+        driverClasspath = System.getProperty('oracleDriverClasspath') ?
+                System.getProperty('oracleDriverClasspath') : "$cuba.tomcat.dir/lib/ojdbc6.jar"
+    }
+
+    task updateOracleDb(dependsOn: assembleDbScripts, description: 'Updates Oracle database', type: CubaDbUpdate) {
+        dbms = 'oracle'
+        host = System.getProperty('oracleHost') ? System.getProperty('oracleHost') : 'localhost'
+        dbName = System.getProperty('oracleDbName') ? System.getProperty('oracleDbName') : 'orcl'
+        dbUser = 'bidemo'
+        dbPassword = 'bidemo'
+        driverClasspath = System.getProperty('oracleDriverClasspath') ?
+                System.getProperty('oracleDriverClasspath') : "$cuba.tomcat.dir/lib/ojdbc6.jar"
+    }
+
+    /* MySQL */
+
+    task createMysqlDb(dependsOn: assembleDbScripts, description: 'Creates MySQL database', type: CubaDbCreation) {
+        dbms = 'mysql'
+        host = System.getProperty('mysqlHost') ? System.getProperty('mysqlHost') : 'localhost'
+        dbName = System.getProperty('mysqlDbName') ? System.getProperty('mysqlDbName') : 'bidemo'
+        dbUser = System.getProperty('mysqlDbUser') ? System.getProperty('mysqlDbUser') : 'root'
+        dbPassword = System.getProperty('mysqlDbPassword') ? System.getProperty('mysqlDbPassword') : 'root'
+        createDbSql = "create database $dbName char set utf8mb4;"
+    }
+
+    task updateMysqlDb(dependsOn: assembleDbScripts, description: 'Updates local database', type: CubaDbUpdate) {
+        dbms = 'mysql'
+        host = System.getProperty('mysqlHost') ? System.getProperty('mysqlHost') : 'localhost'
+        dbName = System.getProperty('mysqlDbName') ? System.getProperty('mysqlDbName') : 'bidemo'
+        dbUser = System.getProperty('mysqlDbUser') ? System.getProperty('mysqlDbUser') : 'root'
+        dbPassword = System.getProperty('mysqlDbPassword') ? System.getProperty('mysqlDbPassword') : 'root'
     }
 }
 
