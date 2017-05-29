@@ -172,22 +172,22 @@ configure(coreModule) {
     }
 
     task testDataModelHsql(type: Test, dependsOn: testClasses) {
-        include("com/haulmont/bidemo/core/DataModelHsqlTest.class")
+        include("com/haulmont/addon/bi/core/DataModelHsqlTest.class")
         systemProperties = System.getProperties()
     }
 
     task testDataModelMssql(type: Test, dependsOn: testClasses) {
-        include("com/haulmont/bidemo/core/DataModelMssqlTest.class")
+        include("com/haulmont/addon/bi/core/DataModelMssqlTest.class")
         systemProperties = System.getProperties()
     }
 
     task testDataModelOracle(type: Test, dependsOn: testClasses) {
-        include("com/haulmont/bidemo/core/DataModelOracleTest.class")
+        include("com/haulmont/addon/bi/core/DataModelOracleTest.class")
         systemProperties = System.getProperties()
     }
 
     task testDataModelMysql(type: Test, dependsOn: testClasses) {
-        include("com/haulmont/bidemo/core/DataModelMysqlTest.class")
+        include("com/haulmont/addon/bi/core/DataModelMysqlTest.class")
         systemProperties = System.getProperties()
     }
 
