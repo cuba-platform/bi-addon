@@ -195,7 +195,7 @@ configure(coreModule) {
     task createPostgresDb(dependsOn: assembleDbScripts, description: 'Creates local database', type: CubaDbCreation) {
         dbms = 'postgres'
         host = 'localhost'
-        dbName = 'bidemo'
+        dbName = 'cubabi'
         dbUser = 'root'
         dbPassword = 'root'
     }
@@ -203,7 +203,7 @@ configure(coreModule) {
     task updatePostgresDb(dependsOn: assembleDbScripts, description: 'Updates local database', type: CubaDbUpdate) {
         dbms = 'postgres'
         host = 'localhost'
-        dbName = 'bidemo'
+        dbName = 'cubabi'
         dbUser = 'root'
         dbPassword = 'root'
     }
@@ -213,7 +213,7 @@ configure(coreModule) {
     task createMssqlDb(dependsOn: assembleDbScripts, description: 'Creates local database', type: CubaDbCreation) {
         dbms = 'mssql'
         host = System.getProperty('mssqlHost') ? System.getProperty('mssqlHost') : 'localhost'
-        dbName = System.getProperty('mssqlDbName') ? System.getProperty('mssqlDbName') : 'bidemo'
+        dbName = System.getProperty('mssqlDbName') ? System.getProperty('mssqlDbName') : 'cubabi'
         dbUser = System.getProperty('mssqlDbUser') ? System.getProperty('mssqlDbUser') : 'sa'
         dbPassword = System.getProperty('mssqlDbPassword') ? System.getProperty('mssqlDbPassword') : 'saPass1'
     }
@@ -221,7 +221,7 @@ configure(coreModule) {
     task updateMssqlDb(dependsOn: assembleDbScripts, description: 'Updates local database', type: CubaDbUpdate) {
         dbms = 'mssql'
         host = System.getProperty('mssqlHost') ? System.getProperty('mssqlHost') : 'localhost'
-        dbName = System.getProperty('mssqlDbName') ? System.getProperty('mssqlDbName') : 'bidemo'
+        dbName = System.getProperty('mssqlDbName') ? System.getProperty('mssqlDbName') : 'cubabi'
         dbUser = System.getProperty('mssqlDbUser') ? System.getProperty('mssqlDbUser') : 'sa'
         dbPassword = System.getProperty('mssqlDbPassword') ? System.getProperty('mssqlDbPassword') : 'saPass1'
     }
@@ -232,8 +232,8 @@ configure(coreModule) {
         dbms = 'oracle'
         host = System.getProperty('oracleHost') ? System.getProperty('oracleHost') : 'localhost'
         dbName = System.getProperty('oracleDbName') ? System.getProperty('oracleDbName') : 'orcl'
-        dbUser = 'bidemo'
-        dbPassword = 'bidemo'
+        dbUser = 'cubabi'
+        dbPassword = 'cubabi'
         oracleSystemPassword = System.getProperty('oracleSystemPassword') ?
                 System.getProperty('oracleSystemPassword') : 'oracle'
         driverClasspath = System.getProperty('oracleDriverClasspath') ?
@@ -244,8 +244,8 @@ configure(coreModule) {
         dbms = 'oracle'
         host = System.getProperty('oracleHost') ? System.getProperty('oracleHost') : 'localhost'
         dbName = System.getProperty('oracleDbName') ? System.getProperty('oracleDbName') : 'orcl'
-        dbUser = 'bidemo'
-        dbPassword = 'bidemo'
+        dbUser = 'cubabi'
+        dbPassword = 'cubabi'
         driverClasspath = System.getProperty('oracleDriverClasspath') ?
                 System.getProperty('oracleDriverClasspath') : "$cuba.tomcat.dir/lib/ojdbc6.jar"
     }
@@ -255,7 +255,7 @@ configure(coreModule) {
     task createMysqlDb(dependsOn: assembleDbScripts, description: 'Creates MySQL database', type: CubaDbCreation) {
         dbms = 'mysql'
         host = System.getProperty('mysqlHost') ? System.getProperty('mysqlHost') : 'localhost'
-        dbName = System.getProperty('mysqlDbName') ? System.getProperty('mysqlDbName') : 'bidemo'
+        dbName = System.getProperty('mysqlDbName') ? System.getProperty('mysqlDbName') : 'cubabi'
         dbUser = System.getProperty('mysqlDbUser') ? System.getProperty('mysqlDbUser') : 'root'
         dbPassword = System.getProperty('mysqlDbPassword') ? System.getProperty('mysqlDbPassword') : 'root'
         createDbSql = "create database $dbName char set utf8mb4;"
@@ -264,7 +264,7 @@ configure(coreModule) {
     task updateMysqlDb(dependsOn: assembleDbScripts, description: 'Updates local database', type: CubaDbUpdate) {
         dbms = 'mysql'
         host = System.getProperty('mysqlHost') ? System.getProperty('mysqlHost') : 'localhost'
-        dbName = System.getProperty('mysqlDbName') ? System.getProperty('mysqlDbName') : 'bidemo'
+        dbName = System.getProperty('mysqlDbName') ? System.getProperty('mysqlDbName') : 'cubabi'
         dbUser = System.getProperty('mysqlDbUser') ? System.getProperty('mysqlDbUser') : 'root'
         dbPassword = System.getProperty('mysqlDbPassword') ? System.getProperty('mysqlDbPassword') : 'root'
     }
