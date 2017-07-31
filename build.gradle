@@ -1,8 +1,8 @@
 buildscript {
-    ext.addonVersion = '1.1-SNAPSHOT'
+    ext.addonVersion = '1.2-SNAPSHOT'
     ext.addonVersion = rootProject.hasProperty('buildVersion') ? rootProject['buildVersion'] : addonVersion
 
-    ext.cubaVersion = '6.5.0'
+    ext.cubaVersion = '6.6.0'
     repositories {
         maven {
             url 'http://repository.haulmont.com:8587/nexus/content/groups/work'
@@ -356,5 +356,5 @@ task restart(dependsOn: ['stop', ':cuba-bi-core:deploy', ':cuba-bi-web:deploy'],
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '3.1'
+    gradleVersion = '3.4'
 }

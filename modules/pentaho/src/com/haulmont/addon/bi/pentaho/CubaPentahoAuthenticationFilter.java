@@ -4,7 +4,6 @@
 
 package com.haulmont.addon.bi.pentaho;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
