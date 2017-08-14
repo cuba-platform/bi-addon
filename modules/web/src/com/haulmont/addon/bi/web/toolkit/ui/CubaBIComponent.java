@@ -5,6 +5,7 @@
 package com.haulmont.addon.bi.web.toolkit.ui;
 
 import com.haulmont.addon.bi.service.AuthTicketService;
+import com.haulmont.addon.bi.util.BiUtil;
 import com.haulmont.addon.bi.web.toolkit.ui.client.CubaBIComponentState;
 import com.haulmont.cuba.core.global.AppBeans;
 import com.haulmont.cuba.core.global.UserSessionSource;
@@ -18,7 +19,7 @@ import java.io.UnsupportedEncodingException;
 public class CubaBIComponent extends AbstractJavaScriptComponent {
     protected String serverUrl;
     protected String reportPath;
-    protected boolean editorMode = true;
+    protected boolean editorMode = false;
     protected AuthInfoProvider authInfoProvider;
 
     public CubaBIComponent() {
@@ -60,14 +61,28 @@ public class CubaBIComponent extends AbstractJavaScriptComponent {
             serverUrl = serverUrl.substring(0, serverUrl.length() - 1);
         }
         try {
-            String reportUrl = String.format("%s/api/repos/%s/%s?disableFilterPanel=true&username=%s&ticket=%s&autoLogin=true",
-                    serverUrl,
-                    reportPath == null ? null : UriUtils.encodePathSegment(reportPath, "UTF-8"),
-                    editorMode ? "editor" : "viewer",
-                    authInfoProvider == null ? "" : authInfoProvider.getUserLogin(),
-                    authInfoProvider == null ? "" : authInfoProvider.getUserTicket());
-            if (editorMode) {
-                reportUrl = reportUrl.concat("&removeFieldList=true");
+            String reportUrl = null;
+            if (reportPath != null) {
+                if (BiUtil.isPentaho(reportPath)) {
+                    reportUrl = String.format("%s/api/repos/%s/%s?disableFilterPanel=true&username=%s&ticket=%s&autoLogin=true",
+                            serverUrl,
+                            UriUtils.encodePathSegment(reportPath, "UTF-8"),
+                            editorMode ? "editor" : "viewer",
+                            authInfoProvider == null ? "" : authInfoProvider.getUserLogin(),
+                            authInfoProvider == null ? "" : authInfoProvider.getUserTicket());
+                    if (editorMode) {
+                        reportUrl = reportUrl.concat("&removeFieldList=true");
+                    }
+                } else if (BiUtil.isSaiku(reportPath)) {
+                    reportUrl = String.format("%s/content/saiku-ui/index.html?biplugin5=true&MODE=%s&DEFAULT_VIEW_STATE=%s" +
+                                    "&dimension_prefetch=false&hide_workspace_icons=true#query/open/%s?username=%s&ticket=%s&autoLogin=true",
+                            serverUrl,
+                            editorMode ? "VIEW" : "view",
+                            editorMode ? "EDIT" : "VIEW",
+                            UriUtils.encodePathSegment(reportPath, "UTF-8"),
+                            authInfoProvider == null ? "" : authInfoProvider.getUserLogin(),
+                            authInfoProvider == null ? "" : authInfoProvider.getUserTicket());
+                }
             }
             return reportUrl;
         } catch (UnsupportedEncodingException e) {
