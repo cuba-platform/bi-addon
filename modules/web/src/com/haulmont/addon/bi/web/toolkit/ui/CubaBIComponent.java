@@ -19,7 +19,7 @@ import java.io.UnsupportedEncodingException;
 public class CubaBIComponent extends AbstractJavaScriptComponent {
     protected String serverUrl;
     protected String reportPath;
-    protected boolean editorMode = false;
+    protected boolean editorMode = true;
     protected AuthInfoProvider authInfoProvider;
 
     public CubaBIComponent() {
