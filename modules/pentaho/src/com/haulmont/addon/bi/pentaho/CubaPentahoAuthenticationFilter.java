@@ -88,9 +88,13 @@ public class CubaPentahoAuthenticationFilter extends GenericFilterBean implement
                 }
                 testTicket(ticketId, userName);
                 authenticateUser(userName, httpRequest);
-                String newUrl = httpRequest.getRequestURL() + "?" + httpRequest.getQueryString();
-                newUrl = newUrl.replace(AUTO_LOGIN_PARAM_NAME + "=true", "");
-                httpResponse.sendRedirect(newUrl);
+                if (isSaiku(httpRequest.getRequestURI())) {
+                    chain.doFilter(request, response);
+                } else {
+                    String newUrl = httpRequest.getRequestURL() + "?" + httpRequest.getQueryString();
+                    newUrl = newUrl.replace(AUTO_LOGIN_PARAM_NAME + "=true", "");
+                    httpResponse.sendRedirect(newUrl);
+                }
             } catch (Exception e) {
                 log.error("An exception occurred during the authentication process", e);
                 chain.doFilter(request, response);
@@ -161,5 +165,9 @@ public class CubaPentahoAuthenticationFilter extends GenericFilterBean implement
             serverUrl = serverUrl.substring(0, serverUrl.length() - 1);
         }
         return format("%s/dispatch/authBI?ticket=%s&username=%s", serverUrl, ticketId, userName);
+    }
+
+    protected boolean isSaiku(String requestUrl) {
+        return requestUrl.contains("/saiku-ui/");
     }
 }

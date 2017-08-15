@@ -74,14 +74,14 @@ public class CubaBIComponent extends AbstractJavaScriptComponent {
                         reportUrl = reportUrl.concat("&removeFieldList=true");
                     }
                 } else if (BiUtil.isSaiku(reportPath)) {
-                    reportUrl = String.format("%s/content/saiku-ui/index.html?biplugin5=true&MODE=%s&DEFAULT_VIEW_STATE=%s" +
-                                    "&dimension_prefetch=false&hide_workspace_icons=true#query/open/%s?username=%s&ticket=%s&autoLogin=true",
+                    reportUrl = String.format("%s/content/saiku-ui/index.html?username=%s&ticket=%s&autoLogin=true&biplugin5=true&MODE=%s&DEFAULT_VIEW_STATE=%s" +
+                                    "&dimension_prefetch=false&hide_workspace_icons=true#query/open/%s",
                             serverUrl,
+                            authInfoProvider == null ? "" : authInfoProvider.getUserLogin(),
+                            authInfoProvider == null ? "" : authInfoProvider.getUserTicket(),
                             editorMode ? "VIEW" : "view",
                             editorMode ? "EDIT" : "VIEW",
-                            UriUtils.encodePathSegment(reportPath, "UTF-8"),
-                            authInfoProvider == null ? "" : authInfoProvider.getUserLogin(),
-                            authInfoProvider == null ? "" : authInfoProvider.getUserTicket());
+                            UriUtils.encodePathSegment(reportPath, "UTF-8"));
                 }
             }
             return reportUrl;
