@@ -11,10 +11,6 @@ buildscript {
                 password(rootProject.hasProperty('repoPass') ? rootProject['repoPass'] : System.getenv('HAULMONT_REPOSITORY_PASSWORD'))
             }
         }
-        maven {
-            url 'http://nexus.pentaho.org/content/groups/omni'
-        }
-        
     }
     dependencies {
         classpath "com.haulmont.gradle:cuba-plugin:$cubaVersion"
