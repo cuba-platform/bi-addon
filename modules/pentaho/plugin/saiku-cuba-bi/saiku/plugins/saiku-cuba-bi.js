@@ -20,6 +20,7 @@ var SaikuCubaBI = Backbone.View.extend({
                 this.workspace = args.workspace;
                 if (Settings.GET.CUBA_VIEW_STATE != "undefined" && Settings.GET.CUBA_VIEW_STATE == "EDIT") {
                         $(this.workspace.toolbar.el).find('.open, .new, .switch_to_mdx, .mdx').hide()
+                        $(this.workspace.el).find('.cubes, .refresh_cubes').hide()
                 }
         }
 });
