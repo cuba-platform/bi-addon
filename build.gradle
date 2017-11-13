@@ -334,6 +334,15 @@ configure(pentahoModule) {
         compile group: 'pentaho', name: 'pentaho-platform-core', version: pentahoVersion
         compile group: 'org.json', name: 'json', version: '20160810'
     }
+
+    task pluginArchive(type: Zip) {
+        from file('plugin')
+        classifier = 'plugin'
+    }
+
+    artifacts {
+        archives pluginArchive
+    }
 }
 
 task undeploy(type: Delete, dependsOn: ':cuba-bi-web:cleanConf') {
