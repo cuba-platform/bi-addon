@@ -2,7 +2,7 @@ buildscript {
     ext.addonVersion = '1.2-SNAPSHOT'
     ext.addonVersion = rootProject.hasProperty('buildVersion') ? rootProject['buildVersion'] : addonVersion
 
-    ext.cubaVersion = '6.6.0'
+    ext.cubaVersion = '6.7.2'
     repositories {
         maven {
             url 'http://repository.haulmont.com:8587/nexus/content/groups/work'
