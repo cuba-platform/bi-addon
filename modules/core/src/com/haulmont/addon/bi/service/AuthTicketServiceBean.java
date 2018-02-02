@@ -37,7 +37,7 @@ public class AuthTicketServiceBean implements AuthTicketService {
         if (sessionIds.isEmpty() || sessionIds.size() > 1) {
             return false;
         }
-        UserSession userSession = userSessions.get(sessionIds.get(0), false);
+        UserSession userSession = userSessions.get(sessionIds.get(0));
         return userSession != null && Objects.equals(userSession.getCurrentOrSubstitutedUser().getLogin(), username);
     }
 }
