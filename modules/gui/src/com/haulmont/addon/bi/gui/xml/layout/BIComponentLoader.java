@@ -9,13 +9,13 @@ import com.haulmont.addon.bi.gui.components.BIComponent;
 import com.haulmont.cuba.core.global.AppBeans;
 import com.haulmont.cuba.core.global.Configuration;
 import com.haulmont.cuba.gui.xml.layout.loaders.AbstractComponentLoader;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Element;
 
 public class BIComponentLoader extends AbstractComponentLoader<BIComponent> {
     @Override
     public void createComponent() {
-        resultComponent = (BIComponent) factory.createComponent(BIComponent.NAME);
+        resultComponent = (BIComponent) factory.create(BIComponent.NAME);
         loadId(resultComponent, element);
     }
 

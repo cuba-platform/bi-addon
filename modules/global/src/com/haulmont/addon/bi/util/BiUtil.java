@@ -1,6 +1,6 @@
 package com.haulmont.addon.bi.util;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public class BiUtil {
     private static final String SAIKU_EXTENSION = ".saiku";

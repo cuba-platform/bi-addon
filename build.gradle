@@ -1,8 +1,8 @@
 buildscript {
-    ext.addonVersion = '1.4-SNAPSHOT'
+    ext.addonVersion = '1.5-SNAPSHOT'
     ext.addonVersion = rootProject.hasProperty('buildVersion') ? rootProject['buildVersion'] : addonVersion
 
-    ext.cubaVersion = '6.10.0'
+    ext.cubaVersion = '7.0.0'
     repositories {
         maven {
             url 'http://repository.haulmont.com:8587/nexus/content/groups/work'
@@ -17,18 +17,19 @@ buildscript {
     }
 }
 
-def globalModule = project(':cuba-bi-global')
-def coreModule = project(':cuba-bi-core')
-def guiModule = project(':cuba-bi-gui')
-def webModule = project(':cuba-bi-web')
-def pentahoModule = project(':cuba-bi-pentaho')
+def modulePrefix = 'cuba-bi'
+
+def globalModule = project(":${modulePrefix}-global" )
+def coreModule = project(":${modulePrefix}-core" )
+def guiModule = project(":${modulePrefix}-gui" )
+def webModule = project(":${modulePrefix}-web" )
+def pentahoModule = project(":${modulePrefix}-pentaho" )
 
 def servletApi = 'javax.servlet:javax.servlet-api:3.1.0'
 
 def pentahoVersion = "7.0.0.0-25";
 def pentahoSpringVersion = "4.1.3.RELEASE";
 
-apply(plugin: 'idea')
 apply(plugin: 'cuba')
 
 cuba {
@@ -55,7 +56,6 @@ def mysql = 'mysql:mysql-connector-java:5.1.38'
 configure([globalModule, coreModule, guiModule, webModule, pentahoModule]) {
     apply(plugin: 'java')
     apply(plugin: 'maven')
-    apply(plugin: 'idea')
     apply(plugin: 'cuba')
 
     dependencies {
@@ -73,6 +73,12 @@ configure([globalModule, coreModule, guiModule, webModule, pentahoModule]) {
 }
 
 configure(globalModule) {
+    dependencies {
+        if (!JavaVersion.current().isJava8()) {
+            runtime('javax.xml.bind:jaxb-api:2.3.1')
+            runtime('org.glassfish.jaxb:jaxb-runtime:2.3.1')
+        }
+    }
     entitiesEnhancing {
         main { enabled = true }
     }
@@ -95,7 +101,7 @@ configure(coreModule) {
 
     dependencies {
         compile(globalModule)
-        provided(servletApi)
+        compileOnly(servletApi)
         jdbc(hsql)
         jdbc(postgres)
         jdbc(mssql) {
@@ -114,18 +120,20 @@ configure(coreModule) {
 
     }
 
-    task cleanConf(description: 'Cleans up conf directory') << {
-        def dir = new File(cuba.tomcat.dir, '/conf/cuba-bi-core')
-        if (dir.isDirectory()) {
-            ant.delete(includeemptydirs: true) {
-                fileset(dir: dir, includes: '**/*', excludes: 'local.app.properties')
+    task cleanConf(description: 'Cleans up conf directory') {
+        doLast {
+            def dir = new File(cuba.tomcat.dir, "/conf/${modulePrefix}-core")
+            if (dir.isDirectory()) {
+                ant.delete(includeemptydirs: true) {
+                    fileset(dir: dir, includes: '**/*', excludes: 'local.app.properties')
+                }
             }
         }
     }
 
     task deploy(dependsOn: [assemble, cleanConf], type: CubaDeployment) {
-        appName = 'cuba-bi-core'
-        appJars('cuba-bi-global', 'cuba-bi-core')
+        appName = "${modulePrefix}-core"
+        appJars(modulePrefix + '-global', modulePrefix + '-core')
     }
 
     task startDb(description: 'Starts local HSQLDB server', type: CubaHsqlStart) {
@@ -277,7 +285,7 @@ configure(guiModule) {
     task deployConf(type: Copy) {
         from file('src')
         include "com/haulmont/addon/bi/**"
-        into "$cuba.tomcat.dir/conf/cuba-bi"
+        into "$cuba.tomcat.dir/conf/${modulePrefix}"
     }
 }
 
@@ -287,7 +295,7 @@ configure(webModule) {
     }
 
     dependencies {
-        provided(servletApi)
+        compileOnly(servletApi)
         compile(guiModule)
 
     }
@@ -305,26 +313,28 @@ configure(webModule) {
     task deployConf(type: Copy) {
         from file('src')
         include "com/haulmont/addon/bi/**"
-        into "$cuba.tomcat.dir/conf/cuba-bi"
+        into "$cuba.tomcat.dir/conf/${modulePrefix}"
     }
 
     task clearMessagesCache(type: CubaClearMessagesCache) {
-        appName = 'cuba-bi'
+        appName = "${modulePrefix}"
     }
     deployConf.dependsOn clearMessagesCache
 
-    task cleanConf(description: 'Cleans up conf directory') << {
-        def dir = new File(cuba.tomcat.dir, '/conf/cuba-bi')
-        if (dir.isDirectory()) {
-            ant.delete(includeemptydirs: true) {
-                fileset(dir: dir, includes: '**/*', excludes: 'local.app.properties')
+    task cleanConf(description: 'Cleans up conf directory') {
+        doLast {
+            def dir = new File(cuba.tomcat.dir, "/conf/${modulePrefix}")
+            if (dir.isDirectory()) {
+                ant.delete(includeemptydirs: true) {
+                    fileset(dir: dir, includes: '**/*', excludes: 'local.app.properties')
+                }
             }
         }
     }
 
     task deploy(dependsOn: [assemble, cleanConf], type: CubaDeployment) {
-        appName = 'cuba-bi'
-        appJars('cuba-bi-global', 'cuba-bi-gui', 'cuba-bi-web')
+        appName = "${modulePrefix}"
+        appJars(modulePrefix + '-global', modulePrefix + '-gui', modulePrefix + '-web')
     }
 }
 
@@ -347,24 +357,23 @@ configure(pentahoModule) {
     }
 }
 
-task undeploy(type: Delete, dependsOn: ':cuba-bi-web:cleanConf') {
+task undeploy(type: Delete, dependsOn: ":${modulePrefix}-web:cleanConf" ) {
     delete("$cuba.tomcat.dir/shared")
-    delete("$cuba.tomcat.dir/webapps/cuba-bi-core")
-    delete("$cuba.tomcat.dir/webapps/cuba-bi")
+    delete("$cuba.tomcat.dir/webapps/${modulePrefix}-core" )
+    delete("$cuba.tomcat.dir/webapps/${modulePrefix}" )
 }
 
-task restart(dependsOn: ['stop', ':cuba-bi-core:deploy', ':cuba-bi-web:deploy'], description: 'Redeploys applications and restarts local Tomcat') << {
-    ant.waitfor(maxwait: 6, maxwaitunit: 'second', checkevery: 2, checkeveryunit: 'second') {
-        not {
-            socket(server: 'localhost', port: '8787')
+task restart(dependsOn: ['stop', ":${modulePrefix}-core:deploy", ":${modulePrefix}-web:deploy"], description: 'Redeploys applications and restarts local Tomcat') {
+    doLast {
+        ant.waitfor(maxwait: 6, maxwaitunit: 'second', checkevery: 2, checkeveryunit: 'second') {
+            not {
+                socket(server: 'localhost', port: '8787')
+            }
         }
+        start.execute()
     }
-    start.execute()
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.3.1'
-}
 
 task aggregateJavadoc(type: Javadoc,
         description: 'Generate javadocs from all child projects as if it was a single project',

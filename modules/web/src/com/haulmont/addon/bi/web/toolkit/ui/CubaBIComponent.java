@@ -4,16 +4,11 @@
 
 package com.haulmont.addon.bi.web.toolkit.ui;
 
-import com.haulmont.addon.bi.service.AuthTicketService;
 import com.haulmont.addon.bi.util.BiUtil;
 import com.haulmont.addon.bi.web.toolkit.ui.client.CubaBIComponentState;
-import com.haulmont.cuba.core.global.AppBeans;
-import com.haulmont.cuba.core.global.UserSessionSource;
 import com.vaadin.annotations.JavaScript;
 import com.vaadin.ui.AbstractJavaScriptComponent;
 import org.springframework.web.util.UriUtils;
-
-import java.io.UnsupportedEncodingException;
 
 @JavaScript({"vaadin://resources/cubabi/pentahoComponent.js", "vaadin://resources/cubabi/pentahoComponent-connector.js"})
 public class CubaBIComponent extends AbstractJavaScriptComponent {
@@ -60,35 +55,32 @@ public class CubaBIComponent extends AbstractJavaScriptComponent {
         if (serverUrl != null && serverUrl.endsWith("/")) {
             serverUrl = serverUrl.substring(0, serverUrl.length() - 1);
         }
-        try {
-            String reportUrl = null;
-            if (reportPath != null) {
-                if (BiUtil.isPentaho(reportPath)) {
-                    reportUrl = String.format("%s/api/repos/%s/%s?disableFilterPanel=true&username=%s&ticket=%s&autoLogin=true",
-                            serverUrl,
-                            UriUtils.encodePathSegment(reportPath, "UTF-8"),
-                            editorMode ? "editor" : "viewer",
-                            authInfoProvider == null ? "" : authInfoProvider.getUserLogin(),
-                            authInfoProvider == null ? "" : authInfoProvider.getUserTicket());
-                    if (editorMode) {
-                        reportUrl = reportUrl.concat("&removeFieldList=true");
-                    }
-                } else if (BiUtil.isSaiku(reportPath)) {
-                    reportUrl = String.format("%s/content/saiku-ui/index.html?username=%s&ticket=%s&autoLogin=true&biplugin5=true&MODE=%s&DEFAULT_VIEW_STATE=%s" +
-                                    "&CUBA_VIEW_STATE=%s&dimension_prefetch=false&hide_workspace_icons=true#query/open/%s",
-                            serverUrl,
-                            authInfoProvider == null ? "" : authInfoProvider.getUserLogin(),
-                            authInfoProvider == null ? "" : authInfoProvider.getUserTicket(),
-                            editorMode ? "VIEW" : "view",
-                            editorMode ? "EDIT" : "VIEW",
-                            editorMode ? "EDIT" : "VIEW",
-                            UriUtils.encodePathSegment(reportPath, "UTF-8"));
+
+        String reportUrl = null;
+        if (reportPath != null) {
+            if (BiUtil.isPentaho(reportPath)) {
+                reportUrl = String.format("%s/api/repos/%s/%s?disableFilterPanel=true&username=%s&ticket=%s&autoLogin=true",
+                        serverUrl,
+                        UriUtils.encodePathSegment(reportPath, "UTF-8"),
+                        editorMode ? "editor" : "viewer",
+                        authInfoProvider == null ? "" : authInfoProvider.getUserLogin(),
+                        authInfoProvider == null ? "" : authInfoProvider.getUserTicket());
+                if (editorMode) {
+                    reportUrl = reportUrl.concat("&removeFieldList=true");
                 }
+            } else if (BiUtil.isSaiku(reportPath)) {
+                reportUrl = String.format("%s/content/saiku-ui/index.html?username=%s&ticket=%s&autoLogin=true&biplugin5=true&MODE=%s&DEFAULT_VIEW_STATE=%s" +
+                                "&CUBA_VIEW_STATE=%s&dimension_prefetch=false&hide_workspace_icons=true#query/open/%s",
+                        serverUrl,
+                        authInfoProvider == null ? "" : authInfoProvider.getUserLogin(),
+                        authInfoProvider == null ? "" : authInfoProvider.getUserTicket(),
+                        editorMode ? "VIEW" : "view",
+                        editorMode ? "EDIT" : "VIEW",
+                        editorMode ? "EDIT" : "VIEW",
+                        UriUtils.encodePathSegment(reportPath, "UTF-8"));
             }
-            return reportUrl;
-        } catch (UnsupportedEncodingException e) {
-            throw new IllegalStateException("Unsupported encoding", e);
         }
+        return reportUrl;
     }
 
     @Override
@@ -101,8 +93,9 @@ public class CubaBIComponent extends AbstractJavaScriptComponent {
         return (CubaBIComponentState) super.getState(markAsDirty);
     }
 
-    public static interface AuthInfoProvider {
+    public interface AuthInfoProvider {
         String getUserLogin();
+
         String getUserTicket();
     }
 }

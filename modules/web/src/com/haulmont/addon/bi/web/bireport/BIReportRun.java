@@ -9,7 +9,7 @@ import com.haulmont.cuba.gui.WindowManager;
 import com.haulmont.cuba.gui.components.*;
 import com.haulmont.cuba.gui.components.actions.ItemTrackingAction;
 import com.haulmont.cuba.gui.data.GroupDatasource;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -23,9 +23,9 @@ import static com.haulmont.addon.bi.web.reportrun.BIReportRunWindow.REPORT_PATH;
 
 public class BIReportRun extends AbstractLookup {
     @Inject
-    protected TextField nameFilter;
+    protected TextField<String> nameFilter;
     @Inject
-    protected TextField codeFilter;
+    protected TextField<String> codeFilter;
     @Inject
     protected GroupTable<BIReport> biReportsTable;
     @Inject
