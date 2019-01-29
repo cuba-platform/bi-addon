@@ -32,7 +32,7 @@ public class BiDemoMssqlTestContainer extends BiDemoTestContainer {
         setDbUrl("jdbc:sqlserver://" + mssqlHost + ";databaseName=cubabi");
         setDbUser("sa");
         setDbPassword("saPass1");
-        addAppPropertiesFile("mssql-test-app.properties");
+        addAppPropertiesFile("com/haulmont/addon/bi/mssql-test-app.properties");
     }
 
     public static class Common extends BiDemoMssqlTestContainer {

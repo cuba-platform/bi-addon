@@ -26,7 +26,7 @@ public class BiDemoPostgresTestContainer extends BiDemoTestContainer {
 
         setDbUser("root");
         setDbPassword("root");
-        addAppPropertiesFile("postgres-test-app.properties");
+        addAppPropertiesFile("com/haulmont/addon/bi/postgres-test-app.properties");
     }
 
     public static class Common extends BiDemoPostgresTestContainer {

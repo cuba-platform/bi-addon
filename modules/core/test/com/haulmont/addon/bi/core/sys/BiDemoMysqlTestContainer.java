@@ -39,7 +39,7 @@ public class BiDemoMysqlTestContainer extends BiDemoTestContainer {
         }
         setDbUser(mysqlUser);
         setDbPassword(mysqlPassword);
-        addAppPropertiesFile("mysql-test-app.properties");
+        addAppPropertiesFile("com/haulmont/addon/bi/mysql-test-app.properties");
     }
 
     public static class Common extends BiDemoMysqlTestContainer {

@@ -28,7 +28,7 @@ public class BiDemoTestContainer extends TestContainer {
         setAppComponents(new ArrayList<>(Arrays.asList(
                 "com.haulmont.cuba"
         )));
-        setAppPropertiesFiles(new ArrayList<>(Arrays.asList("cuba-app.properties", "test-app.properties", "app.properties")));
+        setAppPropertiesFiles(new ArrayList<>(Arrays.asList("com/haulmont/cuba/app.properties", "com/haulmont/cuba/testsupport/test-app.properties", "com/haulmont/addon/bi/app.properties")));
     }
 
     public static class Common extends BiDemoTestContainer {

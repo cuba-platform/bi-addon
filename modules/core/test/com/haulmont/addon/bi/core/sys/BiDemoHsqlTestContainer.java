@@ -24,7 +24,7 @@ public class BiDemoHsqlTestContainer extends BiDemoTestContainer {
         setDbUrl("jdbc:hsqldb:hsql://localhost:9001/cubabi");
         setDbUser("sa");
         setDbPassword("");
-        addAppPropertiesFile("hsql-test-app.properties");
+        addAppPropertiesFile("com/haulmont/addon/bi/hsql-test-app.properties");
     }
 
     public static class Common extends BiDemoHsqlTestContainer {

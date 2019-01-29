@@ -31,7 +31,7 @@ public class BiDemoOracleTestContainer extends BiDemoTestContainer {
 
         setDbUser("cubabi");
         setDbPassword("cubabi");
-        addAppPropertiesFile("oracle-test-app.properties");
+        addAppPropertiesFile("com/haulmont/addon/bi/oracle-test-app.properties");
     }
 
     public static class Common extends BiDemoOracleTestContainer {
