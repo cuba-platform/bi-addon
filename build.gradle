@@ -15,10 +15,10 @@
  */
 
 buildscript {
-    ext.addonVersion = '1.5-SNAPSHOT'
+    ext.addonVersion = '1.6-SNAPSHOT'
     ext.addonVersion = rootProject.hasProperty('buildVersion') ? rootProject['buildVersion'] : addonVersion
 
-    ext.cubaVersion = '7.0.0'
+    ext.cubaVersion = '7.1.0'
     repositories {
         maven {
             url 'http://repository.haulmont.com:8587/nexus/content/groups/work'
@@ -80,7 +80,7 @@ dependencies {
 }
 
 
-def hsql = 'org.hsqldb:hsqldb:2.2.9'
+def hsql = 'org.hsqldb:hsqldb:2.4.1'
 def postgres = 'org.postgresql:postgresql:9.4-1201-jdbc41'
 def mssql = 'com.microsoft.sqlserver:mssql-jdbc:6.1.0.jre8'
 def mysql = 'mysql:mysql-connector-java:5.1.38'
