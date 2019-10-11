@@ -16,16 +16,16 @@
 
 package com.haulmont.addon.bi.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Column;
-import javax.persistence.Lob;
-import com.haulmont.cuba.core.entity.StandardEntity;
 import com.haulmont.chile.core.annotations.Composition;
+import com.haulmont.cuba.core.entity.StandardEntity;
 import com.haulmont.cuba.core.entity.annotation.OnDelete;
 import com.haulmont.cuba.core.global.DeletePolicy;
-import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import java.util.Set;
 
 @Table(name = "CUBABI_BI_REPORT")
 @Entity(name = "cubabi$BIReport")
