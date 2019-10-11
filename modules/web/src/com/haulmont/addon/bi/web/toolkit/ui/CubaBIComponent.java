@@ -81,7 +81,8 @@ public class CubaBIComponent extends AbstractJavaScriptComponent {
                     reportUrl = reportUrl.concat("&removeFieldList=true");
                 }
             } else if (BiUtil.isSaiku(reportPath)) {
-                reportUrl = String.format("%s/content/saiku-ui/index.html?username=%s&ticket=%s&autoLogin=true&biplugin5=true&MODE=%s&DEFAULT_VIEW_STATE=%s" +
+                reportUrl = String.format("%s/content/saiku-ui/index.html?" +
+                                "username=%s&ticket=%s&autoLogin=true&biplugin5=true&MODE=%s&DEFAULT_VIEW_STATE=%s" +
                                 "&CUBA_VIEW_STATE=%s&dimension_prefetch=false&hide_workspace_icons=true#query/open/%s",
                         serverUrl,
                         authInfoProvider == null ? "" : authInfoProvider.getUserLogin(),
