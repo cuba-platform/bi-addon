@@ -30,6 +30,7 @@ buildscript {
     }
     dependencies {
         classpath "com.haulmont.gradle:cuba-plugin:$cubaVersion"
+        classpath "com.haulmont.gradle:addon-gradle-plugin:1.1.2"
     }
 }
 
@@ -47,6 +48,7 @@ def pentahoVersion = "7.0.0.0-25";
 def pentahoSpringVersion = "4.1.3.RELEASE";
 
 apply(plugin: 'cuba')
+apply(plugin: 'addon-gradle-plugin')
 
 cuba {
     artifact {
@@ -89,6 +91,7 @@ configure([globalModule, coreModule, guiModule, webModule, pentahoModule]) {
     apply(plugin: 'java')
     apply(plugin: 'maven')
     apply(plugin: 'cuba')
+    apply(plugin: 'addon-gradle-plugin')
 
     dependencies {
         testCompile('junit:junit:4.12')
