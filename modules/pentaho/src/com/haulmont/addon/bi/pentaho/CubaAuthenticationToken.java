@@ -22,33 +22,33 @@ import org.springframework.security.core.GrantedAuthority;
 import java.util.Collection;
 
 public class CubaAuthenticationToken extends AbstractAuthenticationToken {
-	private static final long serialVersionUID = -8992885651997621514L;
+    private static final long serialVersionUID = -8992885651997621514L;
 
-	private Object principal;
-	private Object credentials;
+    private Object principal;
+    private Object credentials;
 
-	public void setPrincipal(Object principal) {
-		this.principal = principal;
-	}
+    public void setPrincipal(Object principal) {
+        this.principal = principal;
+    }
 
-	public void setCredentials(Object credentials) {
-		this.credentials = credentials;
-	}
+    public void setCredentials(Object credentials) {
+        this.credentials = credentials;
+    }
 
-	public CubaAuthenticationToken(Object principal, Object credentials, Collection<? extends GrantedAuthority> authorities) {
-		super(authorities);
-		setPrincipal(principal);
-		setCredentials(credentials);
-	}
+    public CubaAuthenticationToken(Object principal, Object credentials, Collection<? extends GrantedAuthority> authorities) {
+        super(authorities);
+        setPrincipal(principal);
+        setCredentials(credentials);
+    }
 
-	@Override
-	public Object getCredentials() {
-		return this.credentials;
-	}
+    @Override
+    public Object getCredentials() {
+        return this.credentials;
+    }
 
-	@Override
-	public Object getPrincipal() {
-		return this.principal;
-	}
+    @Override
+    public Object getPrincipal() {
+        return this.principal;
+    }
 
 }

@@ -32,7 +32,7 @@ public class CubaAuthenticationProvider implements AuthenticationProvider {
         List<GrantedAuthority> authorities = new ArrayList<>();
         for (GrantedAuthority originalAuth : authenticationRequest.getAuthorities()) {
             authorities.add(new SimpleGrantedAuthority(originalAuth.getAuthority()));
-	    }
+        }
         UsernamePasswordAuthenticationToken authenticationResult = new UsernamePasswordAuthenticationToken(authenticationRequest.getPrincipal(),
                 authenticationRequest.getCredentials(), authorities);
         authenticationResult.setDetails(authenticationRequest.getDetails());
