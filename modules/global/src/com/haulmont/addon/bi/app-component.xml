@@ -27,6 +27,8 @@
                   value="+com/haulmont/addon/bi/metadata.xml"/>
         <property name="cuba.viewsConfig"
                   value="+com/haulmont/addon/bi/views.xml"/>
+        <property name="cuba.creditsConfig"
+                  value="+com/haulmont/addon/bi/credits.xml"/>
     </module>
     <module blocks="core"
             dependsOn="global"
