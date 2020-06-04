@@ -21,6 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 public final class BiUtil {
     private static final String SAIKU_EXTENSION = ".saiku";
     private static final String PENTAHO_EXTENSION = ".xanalyzer";
+    private static final String DATAFOR_EXTENSION = ".datafor";
 
     private BiUtil() {
     }
@@ -31,5 +32,9 @@ public final class BiUtil {
 
     public static boolean isPentaho(String reportPath) {
         return StringUtils.containsIgnoreCase(reportPath, PENTAHO_EXTENSION);
+    }
+
+    public static boolean isDatafor(String reportPath) {
+        return StringUtils.containsIgnoreCase(reportPath, DATAFOR_EXTENSION);
     }
 }

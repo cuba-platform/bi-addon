@@ -91,6 +91,12 @@ public class CubaBIComponent extends AbstractJavaScriptComponent {
                         editorMode ? "EDIT" : "VIEW",
                         editorMode ? "EDIT" : "VIEW",
                         UriUtils.encodePathSegment(reportPath, "UTF-8"));
+            } else if (BiUtil.isDatafor(reportPath)) {
+                reportUrl = String.format("%s/api/repos/%s/run?username=%s&ticket=%s&autoLogin=true",
+                        serverUrl,
+                        UriUtils.encodePathSegment(reportPath, "UTF-8"),
+                        authInfoProvider == null ? "" : authInfoProvider.getUserLogin(),
+                        authInfoProvider == null ? "" : authInfoProvider.getUserTicket());
             }
         }
         return reportUrl;
