@@ -22,6 +22,8 @@ import com.vaadin.annotations.JavaScript;
 import com.vaadin.ui.AbstractJavaScriptComponent;
 import org.springframework.web.util.UriUtils;
 
+import java.util.Base64;
+
 @JavaScript({"vaadin://resources/cubabi/pentahoComponent.js", "vaadin://resources/cubabi/pentahoComponent-connector.js"})
 public class CubaBIComponent extends AbstractJavaScriptComponent {
     protected String serverUrl;
@@ -92,11 +94,12 @@ public class CubaBIComponent extends AbstractJavaScriptComponent {
                         editorMode ? "EDIT" : "VIEW",
                         UriUtils.encodePathSegment(reportPath, "UTF-8"));
             } else if (BiUtil.isDatafor(reportPath)) {
-                reportUrl = String.format("%s/api/repos/%s/run?username=%s&ticket=%s&autoLogin=true",
+                reportUrl = String.format("%s/plugin/datafor/api/open/%s?username=%s&ticket=%s&autoLogin=true&CUBA_VIEW_STATE=%s",
                         serverUrl,
-                        UriUtils.encodePathSegment(reportPath, "UTF-8"),
+                        Base64.getEncoder().encodeToString(reportPath.replace(":", "/").getBytes()),
                         authInfoProvider == null ? "" : authInfoProvider.getUserLogin(),
-                        authInfoProvider == null ? "" : authInfoProvider.getUserTicket());
+                        authInfoProvider == null ? "" : authInfoProvider.getUserTicket(),
+                        editorMode ? "EDIT" : "VIEW");
             }
         }
         return reportUrl;
