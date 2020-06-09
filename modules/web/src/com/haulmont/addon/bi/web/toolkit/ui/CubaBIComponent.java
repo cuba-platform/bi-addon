@@ -94,12 +94,21 @@ public class CubaBIComponent extends AbstractJavaScriptComponent {
                         editorMode ? "EDIT" : "VIEW",
                         UriUtils.encodePathSegment(reportPath, "UTF-8"));
             } else if (BiUtil.isDatafor(reportPath)) {
-                reportUrl = String.format("%s/plugin/datafor/api/open/%s?username=%s&ticket=%s&autoLogin=true&CUBA_VIEW_STATE=%s",
-                        serverUrl,
-                        Base64.getEncoder().encodeToString(reportPath.replace(":", "/").getBytes()),
-                        authInfoProvider == null ? "" : authInfoProvider.getUserLogin(),
-                        authInfoProvider == null ? "" : authInfoProvider.getUserTicket(),
-                        editorMode ? "EDIT" : "VIEW");
+                if (editorMode) {
+                    reportUrl = String.format("%s/plugin/datafor/api/open/%s?username=%s&ticket=%s&autoLogin=true&CUBA_VIEW_STATE=%s",
+                            serverUrl,
+                            Base64.getEncoder().encodeToString(reportPath.replace(":", "/").getBytes()),
+                            authInfoProvider == null ? "" : authInfoProvider.getUserLogin(),
+                            authInfoProvider == null ? "" : authInfoProvider.getUserTicket(),
+                            "EDIT");
+                } else {
+                    reportUrl = String.format("%s/plugin/datafor/api/integrate/%s?username=%s&ticket=%s&autoLogin=true&CUBA_VIEW_STATE=%s",
+                            serverUrl,
+                            Base64.getEncoder().encodeToString(reportPath.replace(":", "/").getBytes()),
+                            authInfoProvider == null ? "" : authInfoProvider.getUserLogin(),
+                            authInfoProvider == null ? "" : authInfoProvider.getUserTicket(),
+                            "VIEW");
+                }
             }
         }
         return reportUrl;
